@@ -5,6 +5,7 @@ import com.domain.ResponseResult;
 import com.domain.User;
 import com.service.loginService;
 import com.utils.JwtUtil;
+import com.utils.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,8 +24,8 @@ import java.util.Map;
 public class loginserviceimpl implements loginService {
     @Autowired
     private AuthenticationManager manager;
-//    @Autowired
-//    private RedisCache redisCache;
+    @Autowired
+    private RedisCache redisCache;
     @Override
     public ResponseResult login(User user) {
 //        进行用户认证
@@ -39,6 +40,9 @@ public class loginserviceimpl implements loginService {
         String jwt = JwtUtil.createJWT(userid);
         Map<String,String> map = new HashMap<>();
         map.put("token",jwt);
+        //把完整的用户信息存入redis  userid作为key
+        redisCache.setCacheObject("login2"+userid,loginUser);
         return new ResponseResult(200,"登录成功",map);
+
     }
 }
