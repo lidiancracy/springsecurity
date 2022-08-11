@@ -25,7 +25,7 @@ public class JwtUtil {
         String token = UUID.randomUUID().toString().replaceAll("-", "");
         return token;
     }
-    
+
     /**
      * 生成jtw
      * @param subject token中要存放的数据（json格式）

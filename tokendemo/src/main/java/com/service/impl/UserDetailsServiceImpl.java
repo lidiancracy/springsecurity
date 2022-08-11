@@ -4,7 +4,7 @@ package com.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.domain.LoginUser;
 import com.domain.User;
-import com.service.UserService;
+import com.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
-    private UserService userService;
+    private UserMapper userMapper;
 
     /**
      * @Author lidian
@@ -29,12 +29,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LambdaQueryWrapper<User> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
         userLambdaQueryWrapper.eq(User::getUserName,username);
-        User user = userService.getOne(userLambdaQueryWrapper);
+        User user = userMapper.selectOne(userLambdaQueryWrapper);
         if(user==null){
             throw new RuntimeException("用户不存在");
         }
 //        将用户 封装成userdetails对象,userdetail是接口,我们返回它的实现类对象
-
         return new LoginUser(user);
     }
 }

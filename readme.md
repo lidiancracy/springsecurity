@@ -33,3 +33,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 }
 ```
+
+> #### 以上是零碎知识点,loginServiceimpl才是梦开始的地方
+我们从前端获取user传过来的user,其实也就是一个用户名和密码 然后我们进行账号密码校验(使用到了加密是加密数据库中的数据,防止曝光),账号密码通过后给出jwt(用户id的加密) 也是一种形式的加密,相当于用户的一卡通
+
+```java
+
+@Service
+public class loginserviceimpl implements loginService {
+    @Autowired
+    private AuthenticationManager manager;
+    @Autowired
+    private RedisCache redisCache;
+
+    @Override
+    public ResponseResult login(User user) {
+//        进行用户认证
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUserName(), user.getPassword());
+        // 用户认证其实也就是校验账号面面是否匹配,框架自动调用UserDatailServiceImpl里面的实现
+        Authentication authenticate = manager.authenticate(authenticationToken);
+//        认证没通过 提示
+        if (authenticate == null) {
+            throw new RuntimeException("登录失败");
+        }
+//        通过给出随机jwt
+        LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
+        Long id = loginUser.getUser().getId();
+        String jwt = JwtUtil.createJWT(id.toString());
+        HashMap<String, String> map = new HashMap<>();
+        map.put("token", jwt);
+//        把用户完整信息存入reds,uid作为key,实体作为value;
+        redisCache.setCacheObject("login" + id, loginUser);
+        return new ResponseResult(200, "登录成功", map);
+    }
+}
+```

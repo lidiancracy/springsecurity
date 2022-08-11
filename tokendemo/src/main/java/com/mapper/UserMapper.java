@@ -2,6 +2,7 @@ package com.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.domain.User;
+import org.apache.ibatis.annotations.Mapper;
 
 
 /**
@@ -10,6 +11,7 @@ import com.domain.User;
  * @author makejava
  * @since 2022-08-11 15:22:37
  */
+@Mapper
 public interface UserMapper extends BaseMapper<User> {
 
 }

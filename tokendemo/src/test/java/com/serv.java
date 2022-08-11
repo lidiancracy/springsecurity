@@ -1,13 +1,8 @@
 package com;
 
-import com.domain.User;
-import com.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
-import java.util.List;
 
 /**
  * @ClassName serv
@@ -16,13 +11,7 @@ import java.util.List;
  */
 @SpringBootTest
 public class serv {
-    @Autowired
-    private UserService userService;
-    @Test
-    public void test1(){
-        List<User> list = userService.list();
-        System.out.println(list);
-    }
+
 
     /**
      * @Author lidian
