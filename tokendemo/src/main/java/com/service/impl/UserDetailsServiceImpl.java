@@ -4,6 +4,7 @@ package com.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.domain.LoginUser;
 import com.domain.User;
+import com.mapper.MenuMapper;
 import com.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,7 +12,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +22,8 @@ import java.util.List;
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
-
+    @Autowired
+    private MenuMapper menuMapper;
     /**
      * @Author lidian
      * @Date 2022/8/11
@@ -37,9 +38,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new RuntimeException("用户不存在");
         }
 //        将用户 封装成userdetails对象,userdetail是接口,我们返回它的实现类对象
-        List<String> strings = new ArrayList<>();
-        strings.add("admin");
-        strings.add("test");
+//        List<String> strings = new ArrayList<>();
+//        strings.add("admin");
+//        strings.add("test");
+        List<String> strings = menuMapper.selectPermsByUserId(user.getId());
+        System.out.println(strings);
         return new LoginUser(user,strings);
     }
 }

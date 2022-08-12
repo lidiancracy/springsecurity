@@ -121,4 +121,5 @@ class A {
     - 本质是一个过滤器,首先看你有没有token(/login请求除外,这个是由我们在securityconfig里面配置的),没token直接滚,有token我从redis里面根据token查
       ,找出对应的loginuser实体,loginuser包含用户所有信息user实体,以及所有权限List集合
 - 用户权限应该是我们在数据库中获取的,什么时候给呢?在用户密码验证成功后,我们包装Loginuser的时候给权限,也就是初始化一个Loginuser（UserdetailServiceImpl类）
-
+- 之前说过在controller上可以规定拥有什么权限可以请求,什么角色可以请求(角色其实是权限的集和),几乎所有请求都由带token,securityconfig有配置不带
+token的.两个概念别搞混了. 所以我们模拟的时候要在请求头里面加上token
