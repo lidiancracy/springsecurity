@@ -90,3 +90,21 @@ public class loginserviceimpl implements loginService {
 ![](img/auth.png)
 用户登录成功意味着 SecurityHoder中已经有用户认证相关信息了,用户发送其他请求(非登录),需要携带token 才能访问 用户注销功能就是 清除redis里面相关用户的缓存以及删除Sercurityhoder里面用户认证信息
 > logout 重点删redis缓存信息,不需要参数,只需要header携带token告诉我删除哪一个,删除完以后即使携带token访问请求也不响应了
+> 每次登陆token都会变
+---
+> 认证规则分配
+
+```java
+class A {
+    public void test() {
+// 对于登录接口 anonymous允许匿名访问(不携带token可以访问,携带不能访问)
+                .antMatchers("/user/login").anonymous()
+// 携不携带token都能访问
+                .antMatchers("/hello").permitAll()
+//.antMatchers("/testCors").hasAuthority("system:dept:list222")
+// 除上面外的所有请求全部需要鉴权认证(访问需携带token)
+                .anyRequest().authenticated();
+    }
+}
+
+```
