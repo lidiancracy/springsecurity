@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * @ClassName loginserviceimpl
- * @Description TODO
+ * @Description 返回的token其实是 userid 的jwt加密
  * @Date 2022/8/11 18:52
  */
 @Service

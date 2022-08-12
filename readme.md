@@ -1,5 +1,7 @@
 ## Springsecurity
 
+### 登录
+
 > 根据username数据库查询用户实体
 
 ```java
@@ -68,3 +70,23 @@ public class loginserviceimpl implements loginService {
     }
 }
 ```
+
+### 校验
+
+定义JWT认证过滤器
+
+* 获取token
+* 解析token 获取userid
+* 从redis获取用户信息
+* 存入securitycontextholder
+    * 这里必须要存入hodler中，因为我们过滤器不止一个,如果hodler中找不到你相关的认证信息,过滤器会默认将你拦截
+
+
+---
+不是很懂经历了什么,大体上好像配置了一个过滤器,然后再config里面添加了过滤器,实现
+- 登录页面,不需要携带token,只需用户名和密码
+- 其他页面需要在请求header里面携带token（userid的jwt加密）,可以访问,否则拦截
+
+
+
+
