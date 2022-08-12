@@ -81,12 +81,12 @@ public class loginserviceimpl implements loginService {
 * 存入securitycontextholder
     * 这里必须要存入hodler中，因为我们过滤器不止一个,如果hodler中找不到你相关的认证信息,过滤器会默认将你拦截
 
-
 ---
 不是很懂经历了什么,大体上好像配置了一个过滤器,然后再config里面添加了过滤器,实现
+
 - 登录页面,不需要携带token,只需用户名和密码
 - 其他页面需要在请求header里面携带token（userid的jwt加密）,可以访问,否则拦截
 
-
-
-
+![](img/auth.png)
+用户登录成功意味着 SecurityHoder中已经有用户认证相关信息了,用户发送其他请求(非登录),需要携带token 才能访问 用户注销功能就是 清除redis里面相关用户的缓存以及删除Sercurityhoder里面用户认证信息
+> logout 重点删redis缓存信息,不需要参数,只需要header携带token告诉我删除哪一个,删除完以后即使携带token访问请求也不响应了

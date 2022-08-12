@@ -11,4 +11,7 @@ import com.domain.User;
 public interface loginService {
 
     ResponseResult login(User user);
+
+    ResponseResult logout();
+
 }
