@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 对于登录接口 允许匿名访问(不携带token可以访问,携带不能访问)
                 .antMatchers("/user/login").anonymous()
-                .antMatchers("/hello").permitAll()
+//                .antMatchers("/hello").permitAll()
 //                .antMatchers("/testCors").hasAuthority("system:dept:list222")
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();

@@ -44,10 +44,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
          * @description: 如果请求头带有token,才让访问(解析token，存入holder都是这之后的事),没token不让访问
          */
         if (!StringUtils.hasText(token)) {
-            //放行
             filterChain.doFilter(request, response);
             return;
         }
+        /**
+         * @author: 83799
+         * @date: 2022/8/12 15:27
+         * @description:只有请求携带token才会往下走
+         */
         //解析token
         String userid;
         try {
@@ -66,6 +70,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //存入SecurityContextHolder
         //TODO 获取权限信息封装到Authentication中
         UsernamePasswordAuthenticationToken authenticationToken =
+//                封装权限信息
                 new UsernamePasswordAuthenticationToken(loginUser,null,loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         //放行

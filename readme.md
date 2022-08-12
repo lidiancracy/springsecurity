@@ -82,7 +82,7 @@ public class loginserviceimpl implements loginService {
     * 这里必须要存入hodler中，因为我们过滤器不止一个,如果hodler中找不到你相关的认证信息,过滤器会默认将你拦截
 
 ---
-不是很懂经历了什么,大体上好像配置了一个过滤器,然后再config里面添加了过滤器,实现
+不是很懂经历了什么,大体上好像配置了一个过滤器,然后再springconfig里面添加了过滤器,实现了
 
 - 登录页面,不需要携带token,只需用户名和密码
 - 其他页面需要在请求header里面携带token（userid的jwt加密）,可以访问,否则拦截
@@ -108,3 +108,17 @@ class A {
 }
 
 ```
+
+> ### 到此位置登陆登出操作已全部完成
+
+### 权限系统
+
+> 让对应用户看到对应的模块
+
+- 开启权限系统`@EnableGlobalMethodSecurity(prePostEnabled = true)`
+- 开启后可以在controller上分配权限了`@PreAuthorize("hasAuthority('test')")`
+- JwtAuthenticationTokenFilter类,我再详细所以说
+    - 本质是一个过滤器,首先看你有没有token(/login请求除外,这个是由我们在securityconfig里面配置的),没token直接滚,有token我从redis里面根据token查
+      ,找出对应的loginuser实体,loginuser包含用户所有信息user实体,以及所有权限List集合
+- 用户权限应该是我们在数据库中获取的,什么时候给呢?在用户密码验证成功后,我们包装Loginuser的时候给权限,也就是初始化一个Loginuser（UserdetailServiceImpl类）
+

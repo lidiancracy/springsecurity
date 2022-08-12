@@ -11,6 +11,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * user detail service是安全框架希望我们实现的接口
  * 这个是我们自定义的，我们希望调用数据库来验证账户密码，需要自定义
@@ -34,6 +37,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new RuntimeException("用户不存在");
         }
 //        将用户 封装成userdetails对象,userdetail是接口,我们返回它的实现类对象
-        return new LoginUser(user);
+        List<String> strings = new ArrayList<>();
+        strings.add("admin");
+        strings.add("test");
+        return new LoginUser(user,strings);
     }
 }
